@@ -16,9 +16,11 @@
 
   <ion-grid>
     <ion-row>
+      <!-- Sørge for at fotos bliver vist i rækkefølge. -->
       <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
         <ion-img [src]="photo.webviewPath"></ion-img>
         <ion-item>
+          <!-- Metode som bliver kaldt på knappen. henter fra vores services -->
           <ion-button color="danger" (click)="deletePhoto(photo.filepath)">Delete</ion-button>
         </ion-item>
       </ion-col>
@@ -27,7 +29,9 @@
   
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <!-- En event metode som registrerer når vi klikker, kalder derefter addPhoto metode fra service -->
     <ion-fab-button (click)="addPhotoToGallery()">
+      <!-- Giver den en klasse til at ændre ionic icon. -->
     <ion-icon name="camera"></ion-icon>
     </ion-fab-button>
   </ion-fab>

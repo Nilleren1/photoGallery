@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+//   Importerer kamera API, til service.
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
@@ -7,11 +8,13 @@ import { Preferences } from '@capacitor/preferences';
 @Injectable({
   providedIn: 'root'
 })
+// Her ses en klasse med navnet PhotoService
 export class PhotoService {
+// Her er vores property/array (liste af fotos).
   public photos: UserPhoto[] = [];
   private PHOTO_STORAGE: string = 'photos';
 
-  private async savePicture(photo: Photo) { // Convert photo to base64 format, required by Filesystem API to save
+  private async savePicture(photo: Photo) { // Convert photo to base64 format, required by Filesystem API to save.
     const base64Data = await this.readAsBase64(photo);
     // Write the file to the data directory
     const fileName = Date.now() + '.jpeg';
@@ -31,6 +34,7 @@ export class PhotoService {
   private async readAsBase64(photo: Photo) {
     // Fetch the photo, read as a blob, then convert to base64 format
     const response = await fetch(photo.webPath!);
+    //  Blob, konverterer til (Binary Large Object). Typisk brugt til billeder.
     const blob = await response.blob();
     return await this.convertBlobToBase64(blob) as string;
   }
@@ -43,6 +47,9 @@ export class PhotoService {
     reader.readAsDataURL(blob);
   });
 
+  /* Empty constructor for Dependency Injection. -  
+   Even if a service doesn't have its own dependencies to inject, 
+   Angular still needs a constructor to inject it correctly when requested by other components or services.*/
   constructor() { }
 
   public async addNewToGallery() {
